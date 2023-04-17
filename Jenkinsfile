@@ -4,7 +4,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   environment {
-    GITHUB_CREDENTIALS = credentials('GitHub')
+    DOCKERHUB_CREDENTIALS = credentials('GitHub')
   }
   stages {
     stage('Build') {
@@ -12,17 +12,14 @@ pipeline {
         sh 'docker build -t drupal .'
       }
     }
-  stage('Publish') {
-      environment {
-          DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
-      }
+    stage('Login') {
       steps {
-          withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-              sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
-          }
-  stage('Push') {
-    steps {
-       sh 'docker push drupal'
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password'
+      }
+    }
+    stage('Push') {
+      steps {
+        sh 'docker push drupal'
       }
     }
   }
