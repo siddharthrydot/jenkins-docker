@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Push') {
       steps {
-        sh 'docker push drupal'
+        sh 'docker push siddharth5497/drupal'
       }
     }
   }
