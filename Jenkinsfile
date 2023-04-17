@@ -4,7 +4,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   environment {
-    GITHUB_CREDENTIALS = credentials('GitHub')
+    DOCKERHUB_CREDENTIALS = credentials('GitHub')
   }
   stages {
     stage('Build') {
@@ -14,7 +14,8 @@ pipeline {
     }
     stage('Login') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password'
+        sh 'echo "DOCKER_HUB" | docker login --username "siddharth5497" --password-stdin
+
       }
     }
     stage('Push') {
