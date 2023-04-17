@@ -14,7 +14,7 @@ pipeline {
     }
     stage('Login') {
       steps {
-        sh 'echo "DOCKER_HUB" | docker login --username "siddharth5497" --password-stdin
+        sh 'echo "DOCKER_HUB" | docker login --username "siddharth5497" --password-stdin'
 
       }
     }
